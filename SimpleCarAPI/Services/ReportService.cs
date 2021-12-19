@@ -15,10 +15,10 @@ public class ReportService : IReportService
     private readonly CustomerService _customerService;
     private readonly CarService _carService;
     private readonly TransactionService _transactionService;
-    private readonly MoneyHelper _moneyHelper;
+    private readonly IMoneyHelper _moneyHelper;
 
     public ReportService(CustomerService customerService, CarService carService, TransactionService transactionService,
-        MoneyHelper moneyHelper)
+        IMoneyHelper moneyHelper)
     {
         _customerService = customerService;
         _carService = carService;

@@ -1,5 +1,10 @@
 ﻿namespace MoneyHelperLib;
 
+public interface IMoneyHelper
+{
+    decimal Convert(decimal amount, string fromCurrency, string toCurrency);
+}
+
 public class MoneyHelper
 {
     private static readonly IDictionary<string, decimal> CurrencyRates = new Dictionary<string, decimal>

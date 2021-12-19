@@ -15,6 +15,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Libs\CurrencyExchangeLib\CurrencyExchangeLib.csproj" />
       <ProjectReference Include="..\Libs\MoneyHelperLib\MoneyHelperLib.csproj" />
     </ItemGroup>
 

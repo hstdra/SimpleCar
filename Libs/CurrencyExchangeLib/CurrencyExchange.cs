@@ -1,6 +1,11 @@
 ﻿namespace CurrencyExchangeLib;
 
-public class CurrencyExchangeLib
+public interface ICurrencyExchange
+{
+    decimal Convert(Currency from, Currency to, decimal amount);
+}
+
+public class CurrencyExchange : ICurrencyExchange
 {
     private static readonly IDictionary<Currency, decimal> CurrencyRates = new Dictionary<Currency, decimal>
     {
