@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleCarAPI", "SimpleCarAPI\SimpleCar.csproj", "{737FC154-0A29-4881-AA6A-C69702300728}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libs", "Libs", "{AC505DA6-F985-464B-92E1-4C8FD6746482}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoneyHelperLib", "Libs\MoneyHelperLib\MoneyHelperLib.csproj", "{B5039766-70D7-4EDE-8E16-34E2276772C3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CurrencyExchangeLib", "Libs\CurrencyExchangeLib\CurrencyExchangeLib.csproj", "{1489F25E-1224-48ED-A879-E10CB309A440}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{737FC154-0A29-4881-AA6A-C69702300728}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{737FC154-0A29-4881-AA6A-C69702300728}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{737FC154-0A29-4881-AA6A-C69702300728}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{737FC154-0A29-4881-AA6A-C69702300728}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5039766-70D7-4EDE-8E16-34E2276772C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5039766-70D7-4EDE-8E16-34E2276772C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5039766-70D7-4EDE-8E16-34E2276772C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5039766-70D7-4EDE-8E16-34E2276772C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1489F25E-1224-48ED-A879-E10CB309A440}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1489F25E-1224-48ED-A879-E10CB309A440}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1489F25E-1224-48ED-A879-E10CB309A440}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1489F25E-1224-48ED-A879-E10CB309A440}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B5039766-70D7-4EDE-8E16-34E2276772C3} = {AC505DA6-F985-464B-92E1-4C8FD6746482}
+		{1489F25E-1224-48ED-A879-E10CB309A440} = {AC505DA6-F985-464B-92E1-4C8FD6746482}
+	EndGlobalSection
+EndGlobal
