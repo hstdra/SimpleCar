@@ -4,7 +4,7 @@ using SimpleCar.Models.DTOs;
 using SimpleCar.Services.Implementations;
 using SimpleCar.Services.Interfaces;
 
-namespace SimpleCar.Decorators
+namespace SimpleCar.Others
 {
     public class ReportServiceProxy : IReportService
     {

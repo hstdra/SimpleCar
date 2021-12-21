@@ -5,7 +5,7 @@ using CommonServiceLocator;
 using CurrencyExchangeLib;
 using MoneyHelperLib;
 using SimpleCar.Adapters;
-using SimpleCar.Decorators;
+using SimpleCar.Others;
 using SimpleCar.Services.Implementations;
 using SimpleCar.Services.Interfaces;
 using System.Text;
@@ -16,25 +16,25 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddMemoryCache();
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
-builder.Host.ConfigureContainer<ContainerBuilder>(x =>
+builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
 {
-    x.RegisterType<CurrencyExchange>().As<ICurrencyExchange>().SingleInstance();
-    x.RegisterType<CurrencyExchangeAdapter>().As<IMoneyHelper>().SingleInstance();
-    x.RegisterType<CurrencyExchangeConverter>().As<ICurrencyConverter>().SingleInstance();
+    containerBuilder.RegisterType<CurrencyExchange>().As<ICurrencyExchange>().SingleInstance();
+    containerBuilder.RegisterType<CurrencyExchangeAdapter>().As<IMoneyHelper>().SingleInstance();
+    containerBuilder.RegisterType<CurrencyExchangeConverter>().As<ICurrencyConverter>().SingleInstance();
 
-    x.RegisterType<TransactionService>().InstancePerLifetimeScope();
-    x.RegisterType<TransactionService>().As<ITransactionService>().InstancePerLifetimeScope();
-    x.RegisterType<CustomerService>().InstancePerLifetimeScope();
-    x.RegisterType<CustomerService>().As<ICustomerService>().InstancePerLifetimeScope();
-    x.RegisterType<CarService>().InstancePerLifetimeScope();
-    x.RegisterType<CarService>().As<ICarService>().InstancePerLifetimeScope();
+    containerBuilder.RegisterType<TransactionService>().InstancePerLifetimeScope();
+    containerBuilder.RegisterType<TransactionService>().As<ITransactionService>().InstancePerLifetimeScope();
+    containerBuilder.RegisterType<CustomerService>().InstancePerLifetimeScope();
+    containerBuilder.RegisterType<CustomerService>().As<ICustomerService>().InstancePerLifetimeScope();
+    containerBuilder.RegisterType<CarService>().InstancePerLifetimeScope();
+    containerBuilder.RegisterType<CarService>().As<ICarService>().InstancePerLifetimeScope();
 
     //x.RegisterType<ReportService>().As<IReportService>().InstancePerLifetimeScope();
     //x.RegisterType<BridgeReportService>().As<IReportService>().InstancePerLifetimeScope();
-    x.RegisterType<BridgeReportService>().InstancePerLifetimeScope();
-    x.RegisterType<ReportServiceProxy>().As<IReportService>().InstancePerLifetimeScope();
-    x.RegisterDecorator<CachedReportServiceDecorator, IReportService>();
-    x.RegisterDecorator<LoggingReportServiceDecorator, IReportService>();
+    containerBuilder.RegisterType<BridgeReportService>().InstancePerLifetimeScope();
+    containerBuilder.RegisterType<ReportServiceProxy>().As<IReportService>().InstancePerLifetimeScope();
+    containerBuilder.RegisterDecorator<CachedReportServiceDecorator, IReportService>();
+    containerBuilder.RegisterDecorator<LoggingReportServiceDecorator, IReportService>();
 });
 
 var app = builder.Build();

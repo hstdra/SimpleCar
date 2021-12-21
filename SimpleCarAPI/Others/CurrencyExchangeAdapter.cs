@@ -1,7 +1,7 @@
 ﻿using CurrencyExchangeLib;
 using MoneyHelperLib;
 
-namespace SimpleCar.Adapters;
+namespace SimpleCar.Others;
 
 public class CurrencyExchangeAdapter : IMoneyHelper
 {
@@ -15,7 +15,7 @@ public class CurrencyExchangeAdapter : IMoneyHelper
     public decimal Convert(decimal amount, string fromCurrency, string toCurrency)
     {
         return _currencyExchange.Convert(
-            Enum.Parse<Currency>(fromCurrency), 
+            Enum.Parse<Currency>(fromCurrency),
             Enum.Parse<Currency>(toCurrency),
             amount);
     }

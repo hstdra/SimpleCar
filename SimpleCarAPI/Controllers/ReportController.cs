@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using SimpleCar.Others;
 using SimpleCar.Services.Interfaces;
 
 namespace SimpleCar.Controllers;
@@ -28,5 +29,15 @@ public class ReportController : ControllerBase
     {
         var report = await reportService.GetTransactionReport(transactionId, currency);
         return Ok(report.GetReport());
+    }
+
+    [HttpGet]
+    [Route("test")]
+    public async Task<IActionResult> Test(
+
+    )
+    {
+        await FlyweightTest.Run();
+        return Ok();
     }
 }
