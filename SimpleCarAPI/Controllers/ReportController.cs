@@ -16,7 +16,7 @@ public class ReportController : ControllerBase
     )
     {
         var reports = await reportService.GetTransactionReports(currency);
-        return Ok(reports.Select(x => x.GetReport()));
+        return Ok(reports);
     }
 
     [HttpGet]
@@ -28,14 +28,12 @@ public class ReportController : ControllerBase
     )
     {
         var report = await reportService.GetTransactionReport(transactionId, currency);
-        return Ok(report.GetReport());
+        return Ok(report);
     }
 
     [HttpGet]
     [Route("test")]
-    public async Task<IActionResult> Test(
-
-    )
+    public async Task<IActionResult> Test()
     {
         await FlyweightTest.Run();
         return Ok();

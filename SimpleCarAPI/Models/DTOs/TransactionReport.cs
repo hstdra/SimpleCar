@@ -4,18 +4,22 @@ namespace SimpleCar.Models.DTOs;
 
 public class TransactionReport
 {
-    public string CustomerType { get; set; }
-    public string CustomerName { get; set; }
-    public string CustomerTitle { get; set; }
-    public short CarYear { get; set; }
-    public string CarBrand { get; set; }
-    public string CarModel { get; set; }
-    public string Currency { get; set; }
-    public decimal Amount { get; set; }
-    public DateTime PurchasedDate { get; set; }
+    public Car Car { get; }
+    public Customer Customer { get; }
+    public Transaction Transaction { get; }
+    public string CarCode { get; }
+
+    public TransactionReport(Car car, Customer customer, Transaction transaction)
+    {
+        Car = car;
+        Customer = customer;
+        Transaction = transaction;
+        CarCode = $"{car.Brand} {car.Model} {car.Year}".ToSha256Hash();
+    }
 
     public string GetReport()
     {
-        return $"[{CustomerType}] {CustomerTitle}. {CustomerName} - {CarBrand} {CarModel} {CarYear} - {decimal.Round(Amount)} {Currency} - {PurchasedDate.ToShortDateString()}";
+        return
+            $"[{Customer.Type}] {Customer.Title}. {Customer.Name} | {Car.Brand} {Car.Model} {Car.Year} | {decimal.Round(Transaction.Amount)} {Transaction.Currency} | {Transaction.PurchasedDate.ToShortDateString()}";
     }
 }

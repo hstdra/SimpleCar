@@ -11,7 +11,7 @@ public class MoneyHelper
     {
         {"USD", 1},
         {"EUR", 1.1238903m},
-        {"VND", 0.000043488153m},
+        {"GBP", 1.324776m},
     };
     
     public decimal Convert(decimal amount, string fromCurrency, string toCurrency)

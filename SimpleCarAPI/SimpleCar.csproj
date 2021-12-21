@@ -21,4 +21,14 @@
       <ProjectReference Include="..\Libs\MoneyHelperLib\MoneyHelperLib.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="source-data.xlsx">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="BenchmarkDotNet.Artifacts\results" />
+    </ItemGroup>
+
 </Project>

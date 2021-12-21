@@ -1,22 +1,27 @@
 ﻿using System.Text;
 using SimpleCar.Models.DTOs;
+using SimpleCar.Others;
 using SimpleCar.Services.Interfaces;
 
 namespace SimpleCar.Services.Implementations;
 
-public class BridgeReportService : IReportService
+public class FlyweightReportService : IReportService
 {
     private readonly ICustomerService _customerService;
     private readonly ICarService _carService;
     private readonly ITransactionService _transactionService;
     private readonly ICurrencyConverter _currencyConverter;
+    private readonly TransactionReportFlyweightFactory _flyweightFactory;
 
-    public BridgeReportService(CustomerService customerService, CarService carService, TransactionService transactionService, ICurrencyConverter currencyConverter)
+    public FlyweightReportService(CustomerService customerService, CarService carService,
+        TransactionService transactionService, ICurrencyConverter currencyConverter,
+        TransactionReportFlyweightFactory flyweightFactory)
     {
         _customerService = customerService;
         _carService = carService;
         _transactionService = transactionService;
         _currencyConverter = currencyConverter;
+        _flyweightFactory = flyweightFactory;
     }
 
     public async Task<string> GetTransactionReport(int transactionId, string currency)
@@ -34,10 +39,9 @@ public class BridgeReportService : IReportService
         transaction.Currency = currency;
             
         var transactionReport = new TransactionReport(car, customer, transaction);
-        
         return transactionReport.GetReport();
     }
-    
+
     public async Task<string> GetTransactionReports(string currency)
     {
         var stringBuilder = new StringBuilder();
@@ -49,15 +53,12 @@ public class BridgeReportService : IReportService
 
             var customer = await _customerService.GetById(transaction.CustomerId);
             if (customer is null) throw new ArgumentNullException(nameof(transaction.CustomerId), "Customer not found");
-
-            transaction.Amount = _currencyConverter.Convert(transaction.Currency, currency, transaction.Amount);
-            transaction.Currency = currency;
             
-            var transactionReport = new TransactionReport(car, customer, transaction);
-            
-            stringBuilder.AppendLine(transactionReport.GetReport());
+            var transactionReportFlyweight =
+                _flyweightFactory.GetTransactionReportFlyweight(car);
+            stringBuilder.AppendLine(transactionReportFlyweight.GetReport(customer, transaction));
         }
-        
+
         return stringBuilder.ToString();
     }
 }

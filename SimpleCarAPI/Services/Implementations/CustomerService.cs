@@ -8,10 +8,10 @@ public class CustomerService : ICustomerService
 {
     private readonly IReadOnlyList<Customer> _customers;
 
-    public CustomerService(IWebHostEnvironment webHostEnvironment)
+    public CustomerService()
     {
         const string sheetName = "Customers";
-        var filePath = $"{webHostEnvironment.ContentRootPath}/source-data.xlsx";
+        var filePath = $"{AppDomain.CurrentDomain.BaseDirectory}/source-data.xlsx";
 
         using var stream = File.OpenRead(filePath);
         using var importer = new ExcelImporter(stream);

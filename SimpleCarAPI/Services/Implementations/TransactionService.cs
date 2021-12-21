@@ -7,10 +7,10 @@ public class TransactionService : ITransactionService
 {
     private readonly IReadOnlyList<Transaction> _transactions;
 
-    public TransactionService(IWebHostEnvironment webHostEnvironment)
+    public TransactionService()
     {
         const string sheetName = "Transactions";
-        var filePath = $"{webHostEnvironment.ContentRootPath}/source-data.xlsx";
+        var filePath = $"{AppDomain.CurrentDomain.BaseDirectory}/source-data.xlsx";
 
         using var stream = File.OpenRead(filePath);
         using var importer = new ExcelImporter(stream);

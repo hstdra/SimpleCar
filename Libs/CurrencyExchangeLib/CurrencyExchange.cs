@@ -11,7 +11,7 @@ public class CurrencyExchange : ICurrencyExchange
     {
         {Currency.USD, 1},
         {Currency.EUR, 1.1238903m},
-        {Currency.VND, 0.000043488153m},
+        {Currency.GBP, 1.324776m},
     };
     
     public decimal Convert(Currency from, Currency to, decimal amount)

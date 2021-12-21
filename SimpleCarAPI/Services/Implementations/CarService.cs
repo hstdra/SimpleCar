@@ -8,10 +8,10 @@ public class CarService : ICarService
 {
     private readonly IReadOnlyList<Car> _cars;
 
-    public CarService(IWebHostEnvironment webHostEnvironment)
+    public CarService()
     {
         const string sheetName = "Cars";
-        var filePath = $"{webHostEnvironment.ContentRootPath}/source-data.xlsx";
+        var filePath = $"{AppDomain.CurrentDomain.BaseDirectory}/source-data.xlsx";
 
         using var stream = File.OpenRead(filePath);
         using var importer = new ExcelImporter(stream);

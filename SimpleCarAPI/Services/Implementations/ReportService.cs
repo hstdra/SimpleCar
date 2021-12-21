@@ -1,4 +1,5 @@
-﻿using MoneyHelperLib;
+﻿using System.Text;
+using MoneyHelperLib;
 using SimpleCar.Models.DTOs;
 using SimpleCar.Services.Interfaces;
 
@@ -20,7 +21,8 @@ public class ReportService : IReportService
         _moneyHelper = moneyHelper;
     }
 
-    public async Task<TransactionReport> GetTransactionReport(int transactionId, string currency)
+
+    public async Task<string> GetTransactionReport(int transactionId, string currency)
     {
         var transaction = await _transactionService.GetById(transactionId);
         if (transaction is null) throw new ArgumentNullException(nameof(transactionId), "Transaction not found");
@@ -31,23 +33,32 @@ public class ReportService : IReportService
         var customer = await _customerService.GetById(transaction.CustomerId);
         if (customer is null) throw new ArgumentNullException(nameof(transaction.CustomerId), "Customer not found");
 
-        return new()
-        {
-            CustomerTitle = customer.Title,
-            CustomerName = customer.Name,
-            CarBrand = car.Brand,
-            CarYear = car.Year,
-            CarModel = car.Model,
-            Currency = currency,
-            Amount = _moneyHelper.Convert(transaction.Amount, transaction.Currency, currency),
-            PurchasedDate = transaction.PurchasedDate,
-            CustomerType = customer.Type,
-        };
+        transaction.Amount = _moneyHelper.Convert(transaction.Amount, transaction.Currency, currency);
+        transaction.Currency = currency;
+            
+        var transactionReport = new TransactionReport(car, customer, transaction);
+        return transactionReport.GetReport();
     }
 
-    public async Task<List<TransactionReport>> GetTransactionReports(string currency)
+    public async Task<string> GetTransactionReports(string currency)
     {
+        var stringBuilder = new StringBuilder();
         var transactions = await _transactionService.GetAll();
-        return transactions.Select(async x => await GetTransactionReport(x.Id, currency)).Select(x => x.Result).ToList();
+        foreach (var transaction in transactions)
+        {
+            var car = await _carService.GetById(transaction.CarId);
+            if (car is null) throw new ArgumentNullException(nameof(transaction.CarId), "Car not found");
+
+            var customer = await _customerService.GetById(transaction.CustomerId);
+            if (customer is null) throw new ArgumentNullException(nameof(transaction.CustomerId), "Customer not found");
+
+            transaction.Amount = _moneyHelper.Convert(transaction.Amount, transaction.Currency, currency);
+            transaction.Currency = currency;
+            
+            var transactionReport = new TransactionReport(car, customer, transaction);
+            stringBuilder.AppendLine(transactionReport.GetReport());
+        }
+
+        return stringBuilder.ToString();
     }
 }

@@ -4,5 +4,5 @@ public enum Currency
 {
     USD,
     EUR,
-    VND
+    GBP
 }

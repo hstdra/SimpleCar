@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Caching.Memory;
-using SimpleCar.Models.DTOs;
+﻿using Microsoft.Extensions.Caching.Memory;
 using SimpleCar.Services.Interfaces;
 
 namespace SimpleCar.Others
@@ -18,10 +16,10 @@ namespace SimpleCar.Others
             _logger = logger;
         }
 
-        public async Task<TransactionReport> GetTransactionReport(int transactionId, string currency)
+        public async Task<string> GetTransactionReport(int transactionId, string currency)
         {
             var key = $"GetTransactionReport-{transactionId}";
-            if (_memoryCache.TryGetValue(key, out TransactionReport cachedTransactionReport))
+            if (_memoryCache.TryGetValue(key, out string cachedTransactionReport))
             {
                 _logger.LogInformation("Getting transaction report {transactionId} from cache", transactionId);
                 return cachedTransactionReport;
@@ -33,7 +31,7 @@ namespace SimpleCar.Others
             return transactionReport;
         }
 
-        public Task<List<TransactionReport>> GetTransactionReports(string currency)
+        public Task<string> GetTransactionReports(string currency)
         {
             return _innerReportService.GetTransactionReports(currency);
         }

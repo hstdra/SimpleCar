@@ -1,5 +1,4 @@
-﻿using SimpleCar.Models.DTOs;
-using SimpleCar.Services.Interfaces;
+﻿using SimpleCar.Services.Interfaces;
 
 namespace SimpleCar.Others
 {
@@ -14,13 +13,13 @@ namespace SimpleCar.Others
             _logger = logger;
         }
 
-        public Task<TransactionReport> GetTransactionReport(int transactionId, string currency)
+        public Task<string> GetTransactionReport(int transactionId, string currency)
         {
             _logger.LogInformation("Getting transaction report {transactionId}", transactionId);
             return _reportService.GetTransactionReport(transactionId, currency);
         }
 
-        public Task<List<TransactionReport>> GetTransactionReports(string currency)
+        public Task<string> GetTransactionReports(string currency)
         {
             _logger.LogInformation("Getting transaction reports");
             return _reportService.GetTransactionReports(currency);
