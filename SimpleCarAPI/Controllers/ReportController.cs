@@ -32,10 +32,10 @@ public class ReportController : ControllerBase
     }
 
     [HttpGet]
-    [Route("test")]
-    public async Task<IActionResult> Test()
+    [Route("benchmark-flyweight")]
+    public async Task<IActionResult> BenchmarkFlyweight()
     {
-        await FlyweightTest.Run();
-        return Ok();
+        var result = await FlyweightTest.Run();
+        return Content(result, "text/html");
     }
 }

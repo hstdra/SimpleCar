@@ -51,12 +51,15 @@ public class TransactionReportFlyweightFactory
 
 public static class FlyweightTest
 {
-    public static Task<Summary> Run()
+    public static Task<string> Run()
     {
         var result = BenchmarkRunner.Run<Benchmarks>(ManualConfig
             .Create(DefaultConfig.Instance)
-            .WithOptions(ConfigOptions.DisableOptimizationsValidator));
-        return Task.FromResult(result);
+            .WithOptions(ConfigOptions.DisableOptimizationsValidator)
+            .WithOptions(ConfigOptions.DisableLogFile));
+        var html = File.ReadAllText(
+            $@"{result.ResultsDirectoryPath}\SimpleCar.Others.FlyweightTest.Benchmarks-report.html");
+        return Task.FromResult(html);
     }
 
     [MemoryDiagnoser]
