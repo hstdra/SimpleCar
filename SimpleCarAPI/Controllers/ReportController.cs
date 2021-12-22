@@ -38,4 +38,12 @@ public class ReportController : ControllerBase
         var result = await FlyweightBenchmarks.Run();
         return Content(result, "text/html");
     }
+
+    [HttpGet]
+    [Route("show-car-composite")]
+    public async Task<IActionResult> ShowCarComposite([FromServices] CarCompositeTests tests)
+    {
+        await tests.ShowInfomation();
+        return Ok();
+    }
 }

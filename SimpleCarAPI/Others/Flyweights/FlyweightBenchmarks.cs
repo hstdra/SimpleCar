@@ -17,6 +17,7 @@ public static class FlyweightBenchmarks
             .Create(DefaultConfig.Instance)
             .WithOptions(ConfigOptions.DisableOptimizationsValidator)
             .WithOptions(ConfigOptions.DisableLogFile));
+
         var html = File.ReadAllText(
             $@"{result.ResultsDirectoryPath}\SimpleCar.Others.FlyweightBenchmarks.Benchmarks-report.html");
         return Task.FromResult(html);

@@ -33,6 +33,7 @@ public static class Extensions
 
         containerBuilder.RegisterType<FlyweightReportService>().InstancePerLifetimeScope();
         containerBuilder.RegisterType<ReportFlyweightFactory>().InstancePerLifetimeScope();
+        containerBuilder.RegisterType<CarCompositeTests>().InstancePerLifetimeScope();
     }
 
     public static string ToSha256Hash(this string text)
