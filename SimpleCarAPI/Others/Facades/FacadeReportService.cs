@@ -5,14 +5,14 @@ using SimpleCar.Services.Interfaces;
 
 namespace SimpleCar.Services.Implementations;
 
-public class ReportService : IReportService
+public class FacadeReportService : IReportService
 {
     private readonly CustomerService _customerService;
     private readonly CarService _carService;
     private readonly TransactionService _transactionService;
     private readonly IMoneyHelper _moneyHelper;
 
-    public ReportService(CustomerService customerService, CarService carService, TransactionService transactionService,
+    public FacadeReportService(CustomerService customerService, CarService carService, TransactionService transactionService,
         IMoneyHelper moneyHelper)
     {
         _customerService = customerService;
@@ -22,7 +22,7 @@ public class ReportService : IReportService
     }
 
 
-    public async Task<string> GetTransactionReport(int transactionId, string currency)
+    public async Task<string> GetReport(int transactionId, string currency)
     {
         var transaction = await _transactionService.GetById(transactionId);
         if (transaction is null) throw new ArgumentNullException(nameof(transactionId), "Transaction not found");
@@ -36,11 +36,11 @@ public class ReportService : IReportService
         transaction.Amount = _moneyHelper.Convert(transaction.Amount, transaction.Currency, currency);
         transaction.Currency = currency;
             
-        var transactionReport = new TransactionReport(car, customer, transaction);
-        return transactionReport.GetReport();
+        var report = new Report(car, customer, transaction);
+        return report.GetReport();
     }
 
-    public async Task<string> GetTransactionReports(string currency)
+    public async Task<string> GetReports(string currency)
     {
         var stringBuilder = new StringBuilder();
         var transactions = await _transactionService.GetAll();
@@ -55,8 +55,8 @@ public class ReportService : IReportService
             transaction.Amount = _moneyHelper.Convert(transaction.Amount, transaction.Currency, currency);
             transaction.Currency = currency;
             
-            var transactionReport = new TransactionReport(car, customer, transaction);
-            stringBuilder.AppendLine(transactionReport.GetReport());
+            var report = new Report(car, customer, transaction);
+            stringBuilder.AppendLine(report.GetReport());
         }
 
         return stringBuilder.ToString();

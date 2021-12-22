@@ -2,14 +2,14 @@
 
 namespace SimpleCar.Models.DTOs;
 
-public class TransactionReport
+public class Report
 {
     public Car Car { get; }
     public Customer Customer { get; }
     public Transaction Transaction { get; }
     public string CarCode { get; }
 
-    public TransactionReport(Car car, Customer customer, Transaction transaction)
+    public Report(Car car, Customer customer, Transaction transaction)
     {
         Car = car;
         Customer = customer;

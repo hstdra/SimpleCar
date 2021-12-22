@@ -13,16 +13,16 @@ namespace SimpleCar.Others
             _logger = logger;
         }
 
-        public Task<string> GetTransactionReport(int transactionId, string currency)
+        public Task<string> GetReport(int transactionId, string currency)
         {
             _logger.LogInformation("Getting transaction report {transactionId}", transactionId);
-            return _reportService.GetTransactionReport(transactionId, currency);
+            return _reportService.GetReport(transactionId, currency);
         }
 
-        public Task<string> GetTransactionReports(string currency)
+        public Task<string> GetReports(string currency)
         {
             _logger.LogInformation("Getting transaction reports");
-            return _reportService.GetTransactionReports(currency);
+            return _reportService.GetReports(currency);
         }
     }
 }

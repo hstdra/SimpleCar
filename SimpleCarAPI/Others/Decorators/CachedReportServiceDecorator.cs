@@ -16,24 +16,24 @@ namespace SimpleCar.Others
             _logger = logger;
         }
 
-        public async Task<string> GetTransactionReport(int transactionId, string currency)
+        public async Task<string> GetReport(int transactionId, string currency)
         {
-            var key = $"GetTransactionReport-{transactionId}";
-            if (_memoryCache.TryGetValue(key, out string cachedTransactionReport))
+            var key = $"GetReport-{transactionId}";
+            if (_memoryCache.TryGetValue(key, out string cachedReport))
             {
                 _logger.LogInformation("Getting transaction report {transactionId} from cache", transactionId);
-                return cachedTransactionReport;
+                return cachedReport;
             }
 
-            var transactionReport = await _innerReportService.GetTransactionReport(transactionId, currency);
-            _memoryCache.Set(key, transactionReport, TimeSpan.FromMinutes(5));
+            var report = await _innerReportService.GetReport(transactionId, currency);
+            _memoryCache.Set(key, report, TimeSpan.FromMinutes(5));
 
-            return transactionReport;
+            return report;
         }
 
-        public Task<string> GetTransactionReports(string currency)
+        public Task<string> GetReports(string currency)
         {
-            return _innerReportService.GetTransactionReports(currency);
+            return _innerReportService.GetReports(currency);
         }
     }
 }

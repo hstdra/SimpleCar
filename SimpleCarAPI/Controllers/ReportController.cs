@@ -15,7 +15,7 @@ public class ReportController : ControllerBase
         [FromQuery] string currency = "USD"
     )
     {
-        var reports = await reportService.GetTransactionReports(currency);
+        var reports = await reportService.GetReports(currency);
         return Ok(reports);
     }
 
@@ -27,7 +27,7 @@ public class ReportController : ControllerBase
         [FromQuery] string currency = "USD"
     )
     {
-        var report = await reportService.GetTransactionReport(transactionId, currency);
+        var report = await reportService.GetReport(transactionId, currency);
         return Ok(report);
     }
 
@@ -35,7 +35,7 @@ public class ReportController : ControllerBase
     [Route("benchmark-flyweight")]
     public async Task<IActionResult> BenchmarkFlyweight()
     {
-        var result = await FlyweightTest.Run();
+        var result = await FlyweightBenchmarks.Run();
         return Content(result, "text/html");
     }
 }
