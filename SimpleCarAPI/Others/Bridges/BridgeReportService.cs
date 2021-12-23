@@ -1,8 +1,9 @@
 ﻿using System.Text;
 using SimpleCar.Models.DTOs;
+using SimpleCar.Services.Implementations;
 using SimpleCar.Services.Interfaces;
 
-namespace SimpleCar.Services.Implementations;
+namespace SimpleCar.Others.Bridges;
 
 public class BridgeReportService : IReportService
 {
@@ -32,12 +33,12 @@ public class BridgeReportService : IReportService
 
         transaction.Amount = _currencyConverter.Convert(transaction.Currency, currency, transaction.Amount);
         transaction.Currency = currency;
-            
+
         var report = new Report(car, customer, transaction);
-        
+
         return report.GetReport();
     }
-    
+
     public async Task<string> GetReports(string currency)
     {
         var stringBuilder = new StringBuilder();
@@ -52,12 +53,12 @@ public class BridgeReportService : IReportService
 
             transaction.Amount = _currencyConverter.Convert(transaction.Currency, currency, transaction.Amount);
             transaction.Currency = currency;
-            
+
             var report = new Report(car, customer, transaction);
-            
+
             stringBuilder.AppendLine(report.GetReport());
         }
-        
+
         return stringBuilder.ToString();
     }
 }

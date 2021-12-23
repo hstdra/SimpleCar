@@ -1,6 +1,6 @@
 ﻿using SimpleCar.Models.Entities;
 
-namespace SimpleCar.Others;
+namespace SimpleCar.Others.Flyweights;
 
 public class ReportFlyweight
 {

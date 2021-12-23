@@ -1,7 +1,7 @@
 ﻿using System.Collections.Concurrent;
 using SimpleCar.Models.Entities;
 
-namespace SimpleCar.Others;
+namespace SimpleCar.Others.Flyweights;
 
 public class ReportFlyweightFactory
 {

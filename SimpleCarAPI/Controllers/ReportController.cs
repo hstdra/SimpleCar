@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using SimpleCar.Others;
+using SimpleCar.Others.Composites;
+using SimpleCar.Others.Flyweights;
 using SimpleCar.Services.Interfaces;
 
 namespace SimpleCar.Controllers;

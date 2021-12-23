@@ -2,7 +2,7 @@
 using SimpleCar.Services.Implementations;
 using SimpleCar.Services.Interfaces;
 
-namespace SimpleCar.Others
+namespace SimpleCar.Others.Proxies
 {
     public class CustomerServiceProxy : ICustomerService
     {
@@ -12,7 +12,7 @@ namespace SimpleCar.Others
         {
             _customerService = customerService;
         }
-        
+
         public async Task<List<Customer>> GetAll()
         {
             var customers = await _customerService.GetAll();

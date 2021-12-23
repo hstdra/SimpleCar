@@ -1,7 +1,7 @@
 ﻿using CurrencyExchangeLib;
 using MoneyHelperLib;
 
-namespace SimpleCar.Others;
+namespace SimpleCar.Others.Adapters;
 
 public class CurrencyExchangeAdapter : IMoneyHelper
 {

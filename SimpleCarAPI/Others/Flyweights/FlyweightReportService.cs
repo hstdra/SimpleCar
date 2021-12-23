@@ -1,9 +1,9 @@
 ﻿using System.Text;
 using SimpleCar.Models.DTOs;
-using SimpleCar.Others;
+using SimpleCar.Services.Implementations;
 using SimpleCar.Services.Interfaces;
 
-namespace SimpleCar.Services.Implementations;
+namespace SimpleCar.Others.Flyweights;
 
 public class FlyweightReportService : IReportService
 {
@@ -37,7 +37,7 @@ public class FlyweightReportService : IReportService
 
         transaction.Amount = _currencyConverter.Convert(transaction.Currency, currency, transaction.Amount);
         transaction.Currency = currency;
-            
+
         var report = new Report(car, customer, transaction);
         return report.GetReport();
     }
@@ -53,7 +53,7 @@ public class FlyweightReportService : IReportService
 
             var customer = await _customerService.GetById(transaction.CustomerId);
             if (customer is null) throw new ArgumentNullException(nameof(transaction.CustomerId), "Customer not found");
-            
+
             var reportFlyweight = _flyweightFactory.GetReportFlyweight(car);
             stringBuilder.AppendLine(reportFlyweight.GetReport(customer, transaction));
         }

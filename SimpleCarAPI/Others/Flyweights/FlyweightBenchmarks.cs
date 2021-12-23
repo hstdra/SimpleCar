@@ -5,9 +5,9 @@ using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Running;
 using CommonServiceLocator;
-using SimpleCar.Services.Implementations;
+using SimpleCar.Others.Bridges;
 
-namespace SimpleCar.Others;
+namespace SimpleCar.Others.Flyweights;
 
 public static class FlyweightBenchmarks
 {

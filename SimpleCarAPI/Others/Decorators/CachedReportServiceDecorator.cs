@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
 using SimpleCar.Services.Interfaces;
 
-namespace SimpleCar.Others
+namespace SimpleCar.Others.Decorators
 {
     public class CachedReportServiceDecorator : IReportService
     {
