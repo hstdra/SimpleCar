@@ -1,10 +1,8 @@
 ﻿using System.Text;
 using Autofac;
-using Autofac.Extras.CommonServiceLocator;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Running;
-using CommonServiceLocator;
 using SimpleCar.Others.Bridges;
 
 namespace SimpleCar.Others.Flyweights;
@@ -19,7 +17,7 @@ public static class FlyweightBenchmarks
             .WithOptions(ConfigOptions.DisableLogFile));
 
         var html = File.ReadAllText(
-            $@"{result.ResultsDirectoryPath}\SimpleCar.Others.FlyweightBenchmarks.Benchmarks-report.html");
+            $@"{result.ResultsDirectoryPath}\SimpleCar.Others.Flyweights.FlyweightBenchmarks.Benchmarks-report.html");
         return Task.FromResult(html);
     }
 
@@ -33,14 +31,13 @@ public static class FlyweightBenchmarks
         [GlobalSetup]
         public void Setup()
         {
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             var containerBuilder = new ContainerBuilder();
             containerBuilder.RegisterAllServices();
             var container = containerBuilder.Build();
-            ServiceLocator.SetLocatorProvider(() => new AutofacServiceLocator(container));
-            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-
-            _flyweightReportService = ServiceLocator.Current.GetInstance<FlyweightReportService>();
-            _bridgeReportService = ServiceLocator.Current.GetInstance<BridgeReportService>();
+            
+            _flyweightReportService = container.Resolve<FlyweightReportService>();
+            _bridgeReportService = container.Resolve<BridgeReportService>();
         }
 
         [Benchmark]

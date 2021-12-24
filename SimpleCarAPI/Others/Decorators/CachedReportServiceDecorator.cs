@@ -18,13 +18,16 @@ namespace SimpleCar.Others.Decorators
 
         public async Task<string> GetReport(int transactionId, string currency)
         {
+            _logger.LogInformation("Getting transaction report {transactionId} from cache...", transactionId);
+            
             var key = $"GetReport-{transactionId}";
             if (_memoryCache.TryGetValue(key, out string cachedReport))
             {
-                _logger.LogInformation("Getting transaction report {transactionId} from cache", transactionId);
+                _logger.LogInformation("Got transaction report {transactionId} from cache!", transactionId);
                 return cachedReport;
             }
 
+            _logger.LogInformation("Could not get report {transactionId} from cache!", transactionId);
             var report = await _innerReportService.GetReport(transactionId, currency);
             _memoryCache.Set(key, report, TimeSpan.FromMinutes(5));
 

@@ -36,7 +36,7 @@ namespace SimpleCar.Others.Composites
 
         public void ShowInfomation()
         {
-            Console.WriteLine($"{new string(' ', level * 2)}{note}");
+            Console.WriteLine($"{new string(' ', level * 2)}- {note}");
             foreach (var child in GetChildren())
             {
                 child.ShowInfomation();
@@ -57,7 +57,7 @@ namespace SimpleCar.Others.Composites
 
         public void ShowInfomation()
         {
-            Console.WriteLine($"{new string(' ', level * 2)}{note}");
+            Console.WriteLine($"{new string(' ', level * 2)}- {note}");
         }
     }
 
@@ -73,16 +73,18 @@ namespace SimpleCar.Others.Composites
         public async Task ShowInfomation()
         {
             var cars = await _carService.GetAll();
-
             var rootComposite = new CarComposite("Cars:");
+            
             foreach (var yearGroup in cars.GroupBy(x => x.Year))
             {
                 var yearComposite = new CarComposite($"Year: {yearGroup.Key}", 1);
                 rootComposite.Add(yearComposite);
+
                 foreach (var brandGroup in yearGroup.GroupBy(x => x.Brand))
                 {
                     var brandComposite = new CarComposite($"Brand: {brandGroup.Key}", 2);
                     yearComposite.Add(brandComposite);
+
                     foreach (var model in brandGroup)
                     {
                         var modelLeaf = new CarLeaf($"Model: {model.Model}", 3);
@@ -90,6 +92,7 @@ namespace SimpleCar.Others.Composites
                     }
                 }
             }
+
             rootComposite.ShowInfomation();
         }
     }

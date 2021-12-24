@@ -13,16 +13,22 @@ namespace SimpleCar.Others.Decorators
             _logger = logger;
         }
 
-        public Task<string> GetReport(int transactionId, string currency)
+        public async Task<string> GetReport(int transactionId, string currency)
         {
-            _logger.LogInformation("Getting transaction report {transactionId}", transactionId);
-            return _reportService.GetReport(transactionId, currency);
+            _logger.LogInformation("Getting transaction report {transactionId} ...", transactionId);
+            var report = await _reportService.GetReport(transactionId, currency);
+            _logger.LogInformation("Got transaction report {transactionId}!", transactionId);
+            
+            return report;
         }
 
-        public Task<string> GetReports(string currency)
+        public async Task<string> GetReports(string currency)
         {
-            _logger.LogInformation("Getting transaction reports");
-            return _reportService.GetReports(currency);
+            _logger.LogInformation("Getting all transaction reports...");
+            var reports = await _reportService.GetReports(currency);
+            _logger.LogInformation("Got all transaction reports!");
+
+            return reports;
         }
     }
 }

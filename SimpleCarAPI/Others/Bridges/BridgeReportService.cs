@@ -1,5 +1,7 @@
-﻿using System.Text;
+﻿using System.Security;
+using System.Text;
 using SimpleCar.Models.DTOs;
+using SimpleCar.Models.Entities;
 using SimpleCar.Services.Implementations;
 using SimpleCar.Services.Interfaces;
 
@@ -12,7 +14,7 @@ public class BridgeReportService : IReportService
     private readonly ITransactionService _transactionService;
     private readonly ICurrencyConverter _currencyConverter;
 
-    public BridgeReportService(CustomerService customerService, CarService carService, TransactionService transactionService, ICurrencyConverter currencyConverter)
+    public BridgeReportService(ICustomerService customerService, ICarService carService, ITransactionService transactionService, ICurrencyConverter currencyConverter)
     {
         _customerService = customerService;
         _carService = carService;
@@ -28,8 +30,16 @@ public class BridgeReportService : IReportService
         var car = await _carService.GetById(transaction.CarId);
         if (car is null) throw new ArgumentNullException(nameof(transaction.CarId), "Car not found");
 
-        var customer = await _customerService.GetById(transaction.CustomerId);
-        if (customer is null) throw new ArgumentNullException(nameof(transaction.CustomerId), "Customer not found");
+        Customer? customer;
+        try
+        {
+            customer = await _customerService.GetById(transaction.CustomerId);
+            if (customer is null) throw new ArgumentNullException(nameof(transaction.CustomerId), "Customer not found");
+        }
+        catch (SecurityException)
+        {
+            throw;
+        }
 
         transaction.Amount = _currencyConverter.Convert(transaction.Currency, currency, transaction.Amount);
         transaction.Currency = currency;
@@ -48,8 +58,16 @@ public class BridgeReportService : IReportService
             var car = await _carService.GetById(transaction.CarId);
             if (car is null) throw new ArgumentNullException(nameof(transaction.CarId), "Car not found");
 
-            var customer = await _customerService.GetById(transaction.CustomerId);
-            if (customer is null) throw new ArgumentNullException(nameof(transaction.CustomerId), "Customer not found");
+            Customer? customer;
+            try
+            {
+                customer = await _customerService.GetById(transaction.CustomerId);
+                if (customer is null) throw new ArgumentNullException(nameof(transaction.CustomerId), "Customer not found");
+            }
+            catch (SecurityException)
+            {
+                continue;
+            }
 
             transaction.Amount = _currencyConverter.Convert(transaction.Currency, currency, transaction.Amount);
             transaction.Currency = currency;

@@ -1,6 +1,8 @@
-﻿using System.Text;
+﻿using System.Security;
+using System.Text;
 using MoneyHelperLib;
 using SimpleCar.Models.DTOs;
+using SimpleCar.Models.Entities;
 using SimpleCar.Services.Implementations;
 using SimpleCar.Services.Interfaces;
 
@@ -13,7 +15,10 @@ namespace SimpleCar.Others.Facades
         private readonly TransactionService _transactionService;
         private readonly IMoneyHelper _moneyHelper;
 
-        public FacadeReportService(CustomerService customerService, CarService carService, TransactionService transactionService,
+        public FacadeReportService(
+            CustomerService customerService,
+            CarService carService,
+            TransactionService transactionService,
             IMoneyHelper moneyHelper)
         {
             _customerService = customerService;
@@ -30,8 +35,16 @@ namespace SimpleCar.Others.Facades
             var car = await _carService.GetById(transaction.CarId);
             if (car is null) throw new ArgumentNullException(nameof(transaction.CarId), "Car not found");
 
-            var customer = await _customerService.GetById(transaction.CustomerId);
-            if (customer is null) throw new ArgumentNullException(nameof(transaction.CustomerId), "Customer not found");
+            Customer? customer;
+            try
+            {
+                customer = await _customerService.GetById(transaction.CustomerId);
+                if (customer is null) throw new ArgumentNullException(nameof(transaction.CustomerId), "Customer not found");
+            }
+            catch (SecurityException)
+            {
+                throw;
+            }
 
             transaction.Amount = _moneyHelper.Convert(transaction.Amount, transaction.Currency, currency);
             transaction.Currency = currency;
@@ -49,8 +62,16 @@ namespace SimpleCar.Others.Facades
                 var car = await _carService.GetById(transaction.CarId);
                 if (car is null) throw new ArgumentNullException(nameof(transaction.CarId), "Car not found");
 
-                var customer = await _customerService.GetById(transaction.CustomerId);
-                if (customer is null) throw new ArgumentNullException(nameof(transaction.CustomerId), "Customer not found");
+                Customer? customer;
+                try
+                {
+                    customer = await _customerService.GetById(transaction.CustomerId);
+                    if (customer is null) throw new ArgumentNullException(nameof(transaction.CustomerId), "Customer not found");
+                }
+                catch (SecurityException)
+                {
+                    continue;
+                }
 
                 transaction.Amount = _moneyHelper.Convert(transaction.Amount, transaction.Currency, currency);
                 transaction.Currency = currency;

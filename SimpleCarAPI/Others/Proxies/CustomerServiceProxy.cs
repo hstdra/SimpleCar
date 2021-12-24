@@ -1,6 +1,7 @@
 ﻿using SimpleCar.Models.Entities;
 using SimpleCar.Services.Implementations;
 using SimpleCar.Services.Interfaces;
+using System.Security;
 
 namespace SimpleCar.Others.Proxies
 {
@@ -22,7 +23,10 @@ namespace SimpleCar.Others.Proxies
         public async Task<Customer?> GetById(int id)
         {
             var customer = await _customerService.GetById(id);
-            return customer?.Type == "Normal" ? customer : null;
+            if (customer?.Type != "Normal")
+                throw new SecurityException($"Don't enough permission to read user {id}!");
+            
+            return customer;
         }
     }
 }

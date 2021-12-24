@@ -1,23 +1,23 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
-using Autofac.Extras.CommonServiceLocator;
-using CommonServiceLocator;
+using Serilog;
+using Serilog.Events;
+using SimpleCar.Routes;
 using System.Text;
 
+Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+
 var builder = WebApplication.CreateBuilder(args);
+builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
+builder.Host.UseSerilog((ctx, lc) => lc.MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning).WriteTo.Console());
+builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder => containerBuilder.RegisterAllServices());
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddMemoryCache();
-builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
-builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder => containerBuilder.RegisterAllServices());
 
 var app = builder.Build();
-
-var csl = new AutofacServiceLocator(app.Services.GetAutofacRoot());
-ServiceLocator.SetLocatorProvider(() => csl);
-Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-
+app.AddTestRoutes();
 app.UseSwagger();
 app.UseSwaggerUI();
 app.UseHttpsRedirection();
